@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ray Cuevas Training — North Shore, MA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #090909;
+      --surface: #111111;
+      --surface-2: #181818;
+      --text: #FFFFFF;
+      --muted: rgba(255,255,255,0.48);
+      --muted-2: rgba(255,255,255,0.22);
+      --gold: #F5B731;
+      --gold-dark: #D49A10;
+      --gold-glow: rgba(245,183,49,0.18);
+      --divider: rgba(255,255,255,0.07);
+      --card-border: rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─────────────────────────────────────────
+       SCROLL REVEAL
+    ───────────────────────────────────────── */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        transition: opacity 0.65s ease, transform 0.65s ease;
+      }
+      .reveal.d1  { transition-delay: 0.1s; }
+      .reveal.d2  { transition-delay: 0.2s; }
+      .reveal.d3  { transition-delay: 0.3s; }
+      .reveal.d4  { transition-delay: 0.4s; }
+      .reveal.d5  { transition-delay: 0.5s; }
+      .reveal.d6  { transition-delay: 0.6s; }
+    }
+
+    /* ─────────────────────────────────────────
+       BASKETBALL GRAPHIC SVG
+    ───────────────────────────────────────── */
+
+    .ball-bg {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-rev {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+
+    @keyframes float-up {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    @keyframes pulse-ring {
+      0%   { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.6); }
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes count-flash {
+      0%   { color: var(--text); }
+      50%  { color: var(--gold); }
+      100% { color: var(--gold); }
+    }
+
+    @keyframes line-grow {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* ─────────────────────────────────────────
+       PHOTO PLACEHOLDERS
+       To add photos: set style="background-image:url('photos/yourphoto.jpg')"
+       on the .photo-bg div inside each placeholder.
+    ───────────────────────────────────────── */
+
+    .photo-slot {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .photo-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      border: 1px dashed rgba(255,255,255,0.1);
+      background: #141414;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Hide hint when a photo is set */
+    .photo-bg[style*="background-image"] ~ .photo-hint { display: none; }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    /* HERO BACKGROUND PHOTO
+       To use: <div class="photo-bg" style="background-image:url('photos/hero.jpg')">
+       Recommended: action shot, vertical crop, dark/moody.
+       The gradient overlay will keep text readable. */
+    .hero-photo-wrap {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-photo-wrap .photo-bg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-photo-wrap .photo-hint {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(9,9,9,0.25) 0%,
+          rgba(9,9,9,0.05) 30%,
+          rgba(9,9,9,0.7) 65%,
+          rgba(9,9,9,0.97) 100%
+        );
+      z-index: 3;
+    }
+
+    /* Rotating basketball graphic — hero background decoration */
+    .hero-ball-graphic {
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      width: min(55vw, 680px);
+      height: min(55vw, 680px);
+      opacity: 0.055;
+      transform: translateY(-50%);
+      transform-origin: center center;
+      z-index: 4;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-ball-graphic {
+        animation: spin-slow 40s linear infinite;
+        transform-origin: center center;
+        /* fix: override the translateY for animation */
+        top: 50%;
+        margin-top: min(-27.5vw, -340px);
+        transform: none;
+      }
+    }
+
+    /* Half-court arc decoration — faint, behind content */
+    .court-arc {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 520px;
+      height: 260px;
+      opacity: 0.04;
+      z-index: 4;
+    }
+
+    .hero-top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 48px;
+      z-index: 10;
+    }
+
+    .hero-brand {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .hero-ig-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-ig-link:hover { color: var(--gold); }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      padding: 0 48px 64px;
+      max-width: 1100px;
+    }
+
+    .hero-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(72px, 11vw, 152px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+    }
+
+    .hero-name .line-1 { color: #FFFFFF; }
+    .hero-name .line-2 {
+      color: var(--gold);
+      display: block;
+    }
+    .hero-name .line-3 { color: rgba(255,255,255,0.38); }
+
+    .stat-strip {
+      display: inline-flex;
+      align-items: stretch;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(9,9,9,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 32px;
+    }
+
+    .stat-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 32px;
+      gap: 5px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-block:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(30px, 3.5vw, 46px);
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .stat-lbl {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bg);
+      background: var(--gold);
+      text-decoration: none;
+      padding: 14px 38px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.25) 50%,
+        transparent 100%);
+      background-size: 200% 100%;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-cta::after {
+        animation: shimmer 2.5s ease-in-out infinite;
+      }
+    }
+
+    .hero-cta:hover { background: var(--gold-dark); }
+
+    .hero-trail {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─────────────────────────────────────────
+       SHARED SECTION
+    ───────────────────────────────────────── */
+
+    section { border-bottom: 1px solid var(--divider); }
+    .section-pad { padding: 88px 48px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .section-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(42px, 5.5vw, 76px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.93;
+      letter-spacing: 0.01em;
+      margin-bottom: 52px;
+    }
+
+    /* ─────────────────────────────────────────
+       THE TRAINER
+    ───────────────────────────────────────── */
+
+    .trainer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 580px;
+    }
+
+    /* TRAINER PHOTO
+       To add: set style="background-image:url('photos/ray-portrait.jpg')"
+       on the inner .photo-bg div.
+       Recommended: Ray on court, close-up or waist-up. */
+    .trainer-photo-slot {
+      min-height: 480px;
+      position: relative;
+    }
+
+    .trainer-photo-slot .photo-bg { position: absolute; inset: 0; }
+    .trainer-photo-slot .photo-hint { position: absolute; inset: 0; z-index: 1; }
+
+    /* Floating basketball decoration on the photo */
+    .trainer-ball-deco {
+      position: absolute;
+      bottom: 32px;
+      right: 32px;
+      width: 64px;
+      height: 64px;
+      opacity: 0.18;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .trainer-ball-deco {
+        animation: float-up 4s ease-in-out infinite;
+      }
+    }
+
+    .trainer-right {
+      background: var(--surface);
+      padding: 56px 56px 56px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .pull-quote {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(20px, 2.8vw, 32px);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 28px;
+      padding-left: 20px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .trainer-body p {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.68);
+    }
+
+    .trainer-body p + p { margin-top: 16px; }
+
+    .credentials-block { margin-top: 36px; }
+
+    .credential-item {
+      border-top: 1px solid var(--divider);
+      padding: 14px 0;
+    }
+
+    .credential-item:last-child { border-bottom: 1px solid var(--divider); }
+
+    .credential-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gold);
+      margin-bottom: 3px;
+    }
+
+    .credential-detail {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ─────────────────────────────────────────
+       THE WORK
+    ───────────────────────────────────────── */
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      padding: 28px 24px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Basketball watermark per card */
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      right: -18px;
+      width: 80px;
+      height: 80px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'%3E%3Ccircle cx='50' cy='50' r='46' stroke='%23F5B731' stroke-width='2'/%3E%3Cpath d='M4 50 Q50 30 96 50' stroke='%23F5B731' stroke-width='2'/%3E%3Cpath d='M4 50 Q50 70 96 50' stroke='%23F5B731' stroke-width='2'/%3E%3Cpath d='M50 4 Q70 50 50 96' stroke='%23F5B731' stroke-width='2'/%3E%3Cpath d='M50 4 Q30 50 50 96' stroke='%23F5B731' stroke-width='2'/%3E%3C/svg%3E");
+      background-size: contain;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .skill-card:hover {
+      border-color: rgba(245,183,49,0.4);
+      background: #161616;
+    }
+
+    .skill-card:hover::after { opacity: 0.12; }
+
+    .skill-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .skill-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       PHOTO GALLERY
+       Add photos by setting background-image on each .photo-bg.
+       Photos folder: /photos/
+    ───────────────────────────────────────── */
+
+    #gallery { padding: 0; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 5fr 3fr 3fr;
+      grid-template-rows: 320px 320px;
+      gap: 4px;
+    }
+
+    .g-photo { position: relative; overflow: hidden; }
+    .g-photo.tall { grid-row: span 2; }
+
+    .g-photo .photo-bg {
+      transition: transform 0.5s ease;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .g-photo:hover .photo-bg {
+        transform: scale(1.04);
+      }
+    }
+
+    .g-photo .photo-hint {
+      position: absolute;
+      inset: 0;
+      background: #131313;
+    }
+
+    .g-photo .photo-bg[style*="background-image"] ~ .photo-hint { display: none; }
+
+    /* Gallery slot labels */
+    .g-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ─────────────────────────────────────────
+       THE PROCESS
+    ───────────────────────────────────────── */
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+
+    .process-step {
+      background: var(--surface);
+      padding: 44px 40px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated gold bottom border on hover */
+    .process-step::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: var(--gold);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .process-step::after {
+        transition: width 0.35s ease;
+      }
+      .process-step:hover::after { width: 100%; }
+    }
+
+    .step-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 88px;
+      font-weight: 900;
+      color: rgba(245,183,49,0.08);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .step-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ─────────────────────────────────────────
+       BOOK A SESSION
+    ───────────────────────────────────────── */
+
+    #book {
+      background: var(--gold);
+      border-bottom: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Spinning ball behind the book section */
+    .book-ball-bg {
+      position: absolute;
+      right: -80px;
+      bottom: -80px;
+      width: 420px;
+      height: 420px;
+      opacity: 0.09;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .book-ball-bg { animation: spin-rev 25s linear infinite; }
+    }
+
+    #book .eyebrow { color: rgba(0,0,0,0.38); }
+    #book .eyebrow::before { background: rgba(0,0,0,0.38); }
+    #book .section-heading { color: var(--bg); margin-bottom: 8px; }
+
+    .book-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: rgba(0,0,0,0.52);
+      margin-bottom: 36px;
+    }
+
+    #form-wrapper { max-width: 540px; position: relative; z-index: 2; }
+
+    .book-field {
+      display: block;
+      width: 100%;
+      background: rgba(0,0,0,0.1);
+      border: 1.5px solid rgba(0,0,0,0.15);
+      color: rgba(0,0,0,0.85);
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      margin-bottom: 10px;
+      outline: none;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+
+    textarea.book-field { resize: vertical; min-height: 108px; }
+    .book-field::placeholder { color: rgba(0,0,0,0.3); }
+    .book-field:focus {
+      border-color: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.15);
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      background: var(--bg);
+      color: var(--gold);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      padding: 17px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover { background: #1c1c1c; }
+
+    .form-success {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: var(--bg);
+      line-height: 1.7;
+      padding: 20px 0;
+    }
+
+    .book-instagram {
+      margin-top: 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(0,0,0,0.4);
+      line-height: 2;
+      position: relative;
+      z-index: 2;
+    }
+
+    .book-instagram a {
+      color: var(--bg);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .book-instagram a:hover { text-decoration: underline; }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--divider);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p, footer a {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--muted-2);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+
+    @media (max-width: 768px) {
+      .hero-top-bar { padding: 24px; }
+      .hero-content { padding: 0 24px 48px; }
+      .stat-strip { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+      .stat-block { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .stat-block:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08); }
+      .stat-block:last-child, .stat-block:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+      .section-pad { padding: 60px 24px; }
+      .trainer-grid { grid-template-columns: 1fr; }
+      .trainer-photo-slot { min-height: 300px; }
+      .trainer-right { padding: 36px 24px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, 220px);
+      }
+      .g-photo.tall { grid-row: span 1; grid-column: span 2; }
+      .process-grid { grid-template-columns: 1fr; gap: 3px; }
+      footer { padding: 24px; flex-direction: column; text-align: center; }
+      .hero-ball-graphic { display: none; }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .skill-card { transition: border-color 150ms ease, background 150ms ease; }
+      .skill-card::after { transition: opacity 150ms ease; }
+      .hero-cta, .submit-btn { transition: background-color 120ms ease; }
+      .book-field { transition: border-color 150ms ease, background 150ms ease; }
+      .hero-ig-link, footer a { transition: color 150ms ease; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════
+       HERO
+  ════════════════════════════ -->
+  <section id="hero">
+
+    <!-- HERO PHOTO
+         → Put your photo in the photos/ folder
+         → Then replace: <div class="photo-bg">
+           with: <div class="photo-bg" style="background-image:url('photos/hero.jpg')">
+         Recommended size: 1600×2000px, portrait/vertical, dark tone -->
+    <div class="hero-photo-wrap">
+      <div class="photo-bg" style="background-image:url('photos/Ray%20Cuevas%20Named%20First%20Team%20All-NESCAC%20For%20Men%27s%20Basketball%20-%20Bowdoin%20%20College.webp');background-position:55% center;"></div>
+      <div class="photo-hint" style="display:none">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Hero photo — photos/hero.jpg
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <!-- Basketball graphic decoration -->
+    <svg class="ball-bg hero-ball-graphic" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="100" cy="100" r="94" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+      <path d="M6 100 Q100 62 194 100" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+      <path d="M6 100 Q100 138 194 100" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+      <path d="M100 6 Q138 100 100 194" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+      <path d="M100 6 Q62 100 100 194" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+    </svg>
+
+    <!-- Half-court arc -->
+    <svg class="ball-bg court-arc" viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M10 260 A250 250 0 0 1 510 260" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+      <rect x="180" y="20" width="160" height="240" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+      <path d="M180 120 A80 80 0 0 0 340 120" stroke="#F5B731" stroke-width="1.5" fill="none"/>
+    </svg>
+
+    <div class="hero-top-bar">
+      <span class="hero-brand">Ray Cuevas Training &mdash; North Shore, MA</span>
+      <a class="hero-ig-link" href="https://www.instagram.com/raycuevotraining/" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @raycuevotraining
+      </a>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-name">
+        <span class="line-1">Ray</span>
+        <em class="line-2">Cuevas</em>
+        <span class="line-3">Training</span>
+      </h1>
+
+      <div class="stat-strip">
+        <div class="stat-block">
+          <span class="stat-num" data-target="23.7" data-decimal="true">23.7</span>
+          <span class="stat-lbl">PPG (2025&ndash;26)</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num" style="font-size:clamp(13px,1.5vw,20px);line-height:1.25;padding-top:2px">NESCAC<br>ROY</span>
+          <span class="stat-lbl">Rookie of the Year</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num" style="font-size:clamp(13px,1.5vw,20px);line-height:1.25;padding-top:2px">1st Team<br>All-NESCAC</span>
+          <span class="stat-lbl">2026</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num" style="font-size:clamp(13px,1.5vw,20px);line-height:1.25;padding-top:2px">District<br>&amp; Region</span>
+          <span class="stat-lbl">2026 Honors</span>
+        </div>
+      </div>
+
+      <div class="hero-cta-row">
+        <a href="#book" class="hero-cta">Book a Session &rarr;</a>
+        <span class="hero-trail">Pingree &rarr; Bowdoin &rarr; Brown</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════
+       THE TRAINER
+  ════════════════════════ -->
+  <section id="trainer">
+    <div class="trainer-grid">
+
+      <!-- TRAINER PHOTO
+           → Put your photo in the photos/ folder
+           → Replace: <div class="photo-bg">
+             with: <div class="photo-bg" style="background-image:url('photos/ray-trainer.jpg')">
+           Recommended: Ray on court, portrait or mid-action, vertical -->
+      <div class="trainer-photo-slot photo-slot">
+        <div class="photo-bg" style="background-image:url('photos/brown-portrait.png');background-position:center 8%;"></div>
+        <div class="photo-hint" style="display:none">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          photos/ray-trainer.jpg
+        </div>
+
+        <!-- Floating basketball deco -->
+        <svg class="trainer-ball-deco" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="100" cy="100" r="94" stroke="#F5B731" stroke-width="2" fill="none"/>
+          <path d="M6 100 Q100 62 194 100" stroke="#F5B731" stroke-width="2" fill="none"/>
+          <path d="M6 100 Q100 138 194 100" stroke="#F5B731" stroke-width="2" fill="none"/>
+          <path d="M100 6 Q138 100 100 194" stroke="#F5B731" stroke-width="2" fill="none"/>
+          <path d="M100 6 Q62 100 100 194" stroke="#F5B731" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="trainer-right">
+        <p class="eyebrow reveal">The Trainer</p>
+        <div class="trainer-body reveal d1">
+          <p>Ray Cuevas is a Division I basketball player from Ipswich, Massachusetts. At Pingree School, he was a two-time League MVP, a two-time NEPSAC All-Star, and made both the Boston Globe and Boston Herald All-Scholastic teams. He spent two seasons at Bowdoin College, winning NESCAC Rookie of the Year his freshman year, before transferring to Brown University.</p>
+          <p>He trains young players because he remembers what it took to get here. Not highlights. Not handles videos. The real work: footwork in the paint, reading a defense before it collapses, finishing through contact when you&rsquo;re tired. That&rsquo;s what Ray teaches.</p>
+        </div>
+        <div class="credentials-block reveal d3">
+          <div class="credential-item">
+            <div class="credential-name">Pingree School</div>
+            <div class="credential-detail">Two-time League MVP &middot; Two-time NEPSAC All-Star &middot; Globe &amp; Herald All-Scholastic</div>
+          </div>
+          <div class="credential-item">
+            <div class="credential-name">Bowdoin College</div>
+            <div class="credential-detail">NESCAC Rookie of the Year &middot; 1st Team All-NESCAC &middot; District &amp; Region Honors (2026) &middot; 23.7 PPG (2025&ndash;26)</div>
+          </div>
+          <div class="credential-item">
+            <div class="credential-name">Brown University</div>
+            <div class="credential-detail">Current D1 athlete (2026&ndash;27)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════
+       THE WORK
+  ════════════════════════ -->
+  <section id="work">
+    <div class="section-pad">
+      <div class="section-inner">
+        <p class="eyebrow reveal">The Work</p>
+        <h2 class="section-heading reveal d1">What we train</h2>
+        <div class="skills-grid">
+          <div class="skill-card reveal d1">
+            <div class="skill-title">Guard Skill Development</div>
+            <div class="skill-desc">Ball handling, shot creation off the bounce, finishing packages for guards. Ray plays your position. He knows what it actually requires.</div>
+          </div>
+          <div class="skill-card reveal d2">
+            <div class="skill-title">Shooting Mechanics</div>
+            <div class="skill-desc">Form first, always. Ray is a proven shooter at the college level. He doesn&rsquo;t just teach the shot, he&rsquo;s made the shot under pressure.</div>
+          </div>
+          <div class="skill-card reveal d3">
+            <div class="skill-title">Footwork</div>
+            <div class="skill-desc">The foundation of every move Ray runs at the college level. Players learn to move with purpose before they learn any specific skill.</div>
+          </div>
+          <div class="skill-card reveal d4">
+            <div class="skill-title">Basketball IQ</div>
+            <div class="skill-desc">Reading the defense, making decisions under pressure, knowing when to push and when to pull. This gets trained the same way shooting does.</div>
+          </div>
+          <div class="skill-card reveal d5">
+            <div class="skill-title">Finishing at the Rim</div>
+            <div class="skill-desc">Contact, angles, floaters, off-hand. Going to the rim against size. Ray trained for this at the D1 level every day.</div>
+          </div>
+          <div class="skill-card reveal d6">
+            <div class="skill-title">Competitive Mindset</div>
+            <div class="skill-desc">Ray&rsquo;s played in NEPSAC, AAU nationally, and the NESCAC. He trains you for game speed, not drill speed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════
+       PHOTO GALLERY
+       Put photos in the photos/ folder.
+       Then set background-image on each photo-bg div.
+  ════════════════════════ -->
+  <section id="gallery">
+    <div class="gallery-grid">
+
+      <!-- Photo 1: Bowdoin portrait (vertical) -->
+      <div class="g-photo tall">
+        <div class="photo-bg" style="background-image:url('photos/bowdoin-portrait.png');background-position:center 5%;"></div>
+      </div>
+
+      <!-- Photo 2: White Polar Bears action shot -->
+      <div class="g-photo">
+        <div class="photo-bg" style="background-image:url('photos/Ray%20Cuevas%20-%202025-26%20-%20Men%27s%20Basketball%20-%20Bowdoin%20College.webp');background-position:62% center;"></div>
+      </div>
+
+      <!-- Photo 3: B&W court photo -->
+      <div class="g-photo">
+        <div class="photo-bg" style="background-image:url('photos/bowdoin-bw.png');background-position:center 15%;"></div>
+      </div>
+
+      <!-- Photo 4: shooting vs defender -->
+      <div class="g-photo">
+        <div class="photo-bg" style="background-image:url('photos/bowdoin-shooting.webp');background-position:63% 12%;"></div>
+      </div>
+
+      <!-- Photo 5: black uniform drive vs Williams -->
+      <div class="g-photo">
+        <div class="photo-bg" style="background-image:url('photos/bowdoin-drive-2.webp');background-position:52% center;"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════
+       THE PROCESS
+  ════════════════════════ -->
+  <section id="process">
+    <div class="section-pad">
+      <div class="section-inner">
+        <p class="eyebrow reveal">The Process</p>
+        <h2 class="section-heading reveal d1">How it works</h2>
+        <div class="process-grid">
+          <div class="process-step reveal d1">
+            <div class="step-number">01</div>
+            <div class="step-title">Reach Out</div>
+            <div class="step-body">DM Ray on Instagram or fill out the form below. Tell him your player&rsquo;s age, position, and what you want to improve. He gets back fast.</div>
+          </div>
+          <div class="process-step reveal d2">
+            <div class="step-number">02</div>
+            <div class="step-title">First Session</div>
+            <div class="step-body">Every player starts with a one-on-one evaluation. Ray watches you play, identifies what&rsquo;s missing, and builds the training plan from there.</div>
+          </div>
+          <div class="process-step reveal d3">
+            <div class="step-number">03</div>
+            <div class="step-title">Build Your Game</div>
+            <div class="step-body">Sessions run one-on-one or in small groups. You set the schedule. Ray sets the standard.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════
+       BOOK A SESSION
+  ════════════════════════ -->
+  <section id="book">
+
+    <!-- Spinning ball decoration -->
+    <svg class="ball-bg book-ball-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="100" cy="100" r="94" stroke="#0A0A0A" stroke-width="2" fill="none"/>
+      <path d="M6 100 Q100 62 194 100" stroke="#0A0A0A" stroke-width="2" fill="none"/>
+      <path d="M6 100 Q100 138 194 100" stroke="#0A0A0A" stroke-width="2" fill="none"/>
+      <path d="M100 6 Q138 100 100 194" stroke="#0A0A0A" stroke-width="2" fill="none"/>
+      <path d="M100 6 Q62 100 100 194" stroke="#0A0A0A" stroke-width="2" fill="none"/>
+    </svg>
+
+    <div class="section-pad">
+      <div class="section-inner">
+        <p class="eyebrow reveal">Book a Session</p>
+        <h2 class="section-heading reveal d1">Ready to work?</h2>
+        <p class="book-sub reveal d2">DM on Instagram or drop your info below. Ray replies within 24 hours.</p>
+
+        <div id="form-wrapper" class="reveal d3">
+          <form id="contact-form">
+            <input class="book-field" type="text" name="name" placeholder="Your name" required>
+            <input class="book-field" type="email" name="email" placeholder="Your email" required>
+            <textarea class="book-field" name="message" rows="4" placeholder="Player's age, position, and what you're working on" required></textarea>
+            <button type="submit" class="submit-btn">Send It &rarr;</button>
+          </form>
+        </div>
+
+        <div class="book-instagram reveal d4">
+          Or find Ray on Instagram:&nbsp;
+          <a href="https://www.instagram.com/raycuevotraining/" target="_blank" rel="noopener noreferrer">@raycuevotraining</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Ray Cuevas Training. Ipswich, Massachusetts.</p>
+    <a href="https://www.instagram.com/raycuevotraining/" target="_blank" rel="noopener noreferrer">@raycuevotraining</a>
+  </footer>
+
+  <script>
+    /* ── Stat counter animation ── */
+    function animateStat(el) {
+      const target = parseFloat(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const isDecimal = el.dataset.decimal === 'true';
+      const duration = 1400;
+      let startTime = null;
+
+      function easeOut(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const value = easeOut(progress) * target;
+        el.textContent = (isDecimal ? value.toFixed(1) : Math.round(value)) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    /* Run stat counters on load */
+    const prefersMotion = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+    if (prefersMotion) {
+      window.addEventListener('load', () => {
+        document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+          animateStat(el);
+        });
+      });
+    }
+
+    /* ── Scroll reveal ── */
+    if (prefersMotion) {
+      const revealEls = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealEls.forEach(el => observer.observe(el));
+    } else {
+      /* Reduced motion: just show everything immediately */
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+
+    /* ── Form submit ── */
+    const contactForm = document.getElementById('contact-form');
+    const formWrapper = document.getElementById('form-wrapper');
+
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = {
+        name:    contactForm.querySelector('input[name="name"]').value.trim(),
+        email:   contactForm.querySelector('input[name="email"]').value.trim(),
+        message: contactForm.querySelector('textarea[name="message"]').value.trim(),
+      };
+      console.log('Ray Cuevas Training — form submission:', data);
+      formWrapper.innerHTML = '<p class="form-success">Ray got your message. Expect a reply within 24 hours.</p>';
+    });
+  </script>
+
+</body>
+</html>
