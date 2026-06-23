@@ -717,7 +717,13 @@
       margin-bottom: 36px;
     }
 
-    #form-wrapper { max-width: 540px; position: relative; z-index: 2; }
+    .book-actions { position: relative; z-index: 2; }
+
+    .book-email-btn {
+      display: inline-block;
+      text-decoration: none;
+      max-width: 320px;
+    }
 
     .book-field {
       display: block;
@@ -1096,15 +1102,12 @@
       <div class="section-inner">
         <p class="eyebrow reveal">Book a Session</p>
         <h2 class="section-heading reveal d1">Ready to work?</h2>
-        <p class="book-sub reveal d2">DM on Instagram or drop your info below. Ray replies within 24 hours.</p>
+        <p class="book-sub reveal d2">Reach out directly and Ray will get back to you within 24 hours.</p>
 
-        <div id="form-wrapper" class="reveal d3">
-          <form id="contact-form">
-            <input class="book-field" type="text" name="name" placeholder="Your name" required>
-            <input class="book-field" type="email" name="email" placeholder="Your email" required>
-            <textarea class="book-field" name="message" rows="4" placeholder="Player's age, position, and what you're working on" required></textarea>
-            <button type="submit" class="submit-btn">Send It &rarr;</button>
-          </form>
+        <div class="book-actions reveal d3">
+          <a class="submit-btn book-email-btn" href="mailto:Raycuevas2024@gmail.com?subject=Training%20Session%20Request&body=Hi%20Ray%2C%0A%0AHere%27s%20some%20info%20about%20who%20I%27m%20looking%20to%20train%3A%0A%0AName%3A%20%0AAge%3A%20%0APosition%3A%20%0AWhat%20we%27re%20working%20on%3A%20">
+            Reach Out &rarr;
+          </a>
         </div>
 
         <div class="book-instagram reveal d4">
@@ -1173,20 +1176,6 @@
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
     }
 
-    /* ── Form submit ── */
-    const contactForm = document.getElementById('contact-form');
-    const formWrapper = document.getElementById('form-wrapper');
-
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const data = {
-        name:    contactForm.querySelector('input[name="name"]').value.trim(),
-        email:   contactForm.querySelector('input[name="email"]').value.trim(),
-        message: contactForm.querySelector('textarea[name="message"]').value.trim(),
-      };
-      console.log('Ray Cuevas Training — form submission:', data);
-      formWrapper.innerHTML = '<p class="form-success">Ray got your message. Expect a reply within 24 hours.</p>';
-    });
   </script>
 
 </body>
