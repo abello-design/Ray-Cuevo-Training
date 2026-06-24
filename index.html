@@ -197,28 +197,25 @@
       z-index: 3;
     }
 
-    /* Rotating basketball graphic — hero background decoration */
+    /* Rotating basketball graphic — bottom-right corner, 35% clipped */
     .hero-ball-graphic {
       position: absolute;
-      right: -60px;
-      top: 60%;
+      right: min(-19vw, -238px);
+      bottom: min(-19vw, -238px);
+      top: auto;
       width: min(55vw, 680px);
       height: min(55vw, 680px);
       opacity: 0.25;
-      transform: translateY(-50%);
       transform-origin: center center;
       z-index: 2;
       object-fit: contain;
-      filter: brightness(0) saturate(100%) invert(95%) sepia(30%) saturate(400%) hue-rotate(5deg) brightness(1.1);
+      filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(10deg) brightness(1.05);
     }
 
     @media (prefers-reduced-motion: no-preference) {
       .hero-ball-graphic {
         animation: spin-slow 40s linear infinite;
         transform-origin: center center;
-        top: 60%;
-        margin-top: min(-27.5vw, -340px);
-        transform: none;
       }
     }
 
