@@ -201,7 +201,7 @@
     .hero-ball-graphic {
       position: absolute;
       right: -60px;
-      top: 50%;
+      top: 60%;
       width: min(55vw, 680px);
       height: min(55vw, 680px);
       opacity: 0.25;
@@ -209,30 +209,21 @@
       transform-origin: center center;
       z-index: 2;
       object-fit: contain;
+      filter: brightness(0) saturate(100%) invert(95%) sepia(30%) saturate(400%) hue-rotate(5deg) brightness(1.1);
     }
 
     @media (prefers-reduced-motion: no-preference) {
       .hero-ball-graphic {
         animation: spin-slow 40s linear infinite;
         transform-origin: center center;
-        /* fix: override the translateY for animation */
-        top: 50%;
+        top: 60%;
         margin-top: min(-27.5vw, -340px);
         transform: none;
       }
     }
 
-    /* Half-court arc decoration — faint, behind content */
-    .court-arc {
-      position: absolute;
-      bottom: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 520px;
-      height: 260px;
-      opacity: 0.04;
-      z-index: 4;
-    }
+    /* Half-court arc decoration — removed */
+    .court-arc { display: none; }
 
     .hero-top-bar {
       position: absolute;
