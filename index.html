@@ -209,7 +209,7 @@
       transform-origin: center center;
       z-index: 2;
       object-fit: contain;
-      filter: brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(15deg) brightness(1.1);
+      filter: brightness(0) invert(1) sepia(1) saturate(6) hue-rotate(5deg) brightness(0.97);
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -439,6 +439,8 @@
       opacity: 0.18;
       z-index: 2;
       pointer-events: none;
+      object-fit: contain;
+      filter: brightness(0) invert(1) sepia(1) saturate(6) hue-rotate(5deg) brightness(0.97);
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -687,8 +689,10 @@
       bottom: -80px;
       width: 420px;
       height: 420px;
-      opacity: 0.09;
+      opacity: 0.15;
       pointer-events: none;
+      object-fit: contain;
+      filter: brightness(0);
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -930,13 +934,7 @@
         </div>
 
         <!-- Floating basketball deco -->
-        <svg class="trainer-ball-deco" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="100" cy="100" r="94" fill="none" stroke="#F5B731" stroke-width="5"/>
-          <path d="M6 100 A110 110 0 0 0 194 100" stroke="#F5B731" stroke-width="5" fill="none"/>
-          <path d="M6 100 A110 110 0 0 1 194 100" stroke="#F5B731" stroke-width="5" fill="none"/>
-          <path d="M100 6 A110 110 0 0 0 100 194" stroke="#F5B731" stroke-width="5" fill="none"/>
-          <path d="M100 6 A110 110 0 0 1 100 194" stroke="#F5B731" stroke-width="5" fill="none"/>
-        </svg>
+        <img class="trainer-ball-deco" src="photos/basketball-logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'"/>
       </div>
 
       <div class="trainer-right">
@@ -1073,13 +1071,7 @@
   <section id="book">
 
     <!-- Spinning ball decoration -->
-    <svg class="ball-bg book-ball-bg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="100" cy="100" r="94" fill="none" stroke="#0A0A0A" stroke-width="3"/>
-      <path d="M6 100 A110 110 0 0 0 194 100" stroke="#0A0A0A" stroke-width="3" fill="none"/>
-      <path d="M6 100 A110 110 0 0 1 194 100" stroke="#0A0A0A" stroke-width="3" fill="none"/>
-      <path d="M100 6 A110 110 0 0 0 100 194" stroke="#0A0A0A" stroke-width="3" fill="none"/>
-      <path d="M100 6 A110 110 0 0 1 100 194" stroke="#0A0A0A" stroke-width="3" fill="none"/>
-    </svg>
+    <img class="ball-bg book-ball-bg" src="photos/basketball-logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'"/>
 
     <div class="section-pad">
       <div class="section-inner">
