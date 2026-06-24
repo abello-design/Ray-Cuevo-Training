@@ -208,6 +208,7 @@
       transform: translateY(-50%);
       transform-origin: center center;
       z-index: 2;
+      object-fit: contain;
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -870,14 +871,8 @@
     </div>
     <div class="hero-overlay"></div>
 
-    <!-- Basketball graphic decoration -->
-    <svg class="ball-bg hero-ball-graphic" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="100" cy="100" r="94" fill="none" stroke="#F5B731" stroke-width="3"/>
-      <path d="M6 100 A110 110 0 0 0 194 100" stroke="#F5B731" stroke-width="3" fill="none"/>
-      <path d="M6 100 A110 110 0 0 1 194 100" stroke="#F5B731" stroke-width="3" fill="none"/>
-      <path d="M100 6 A110 110 0 0 0 100 194" stroke="#F5B731" stroke-width="3" fill="none"/>
-      <path d="M100 6 A110 110 0 0 1 100 194" stroke="#F5B731" stroke-width="3" fill="none"/>
-    </svg>
+    <!-- Basketball logo — place your image at photos/basketball-logo.png -->
+    <img class="ball-bg hero-ball-graphic" src="photos/basketball-logo.png" alt="" aria-hidden="true" onerror="this.style.display='none'"/>
 
     <!-- Half-court arc -->
     <svg class="ball-bg court-arc" viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
